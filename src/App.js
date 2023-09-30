@@ -56,7 +56,15 @@ function SearchBar({ onResponse }) {
 }
 
 function WebsiteCards({ sites }) {
-  
+  return(
+    <>
+      {sites.map(s =>
+        <div className='siteCard'>
+          Site Name: {s.site} <br />
+          Site address: {s.urlUser} <br />
+        </div>)}
+    </>
+  )
 }
 
 function Information() {
