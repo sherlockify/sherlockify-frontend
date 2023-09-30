@@ -1,6 +1,5 @@
 import { useRef, useState } from 'react';
-import { ChakraProvider, Button, Card, CardHeader, CardFooter, SimpleGrid } from '@chakra-ui/react'
-
+import { ChakraProvider, Button, Card, CardHeader, CardFooter, SimpleGrid, CardBody, Image } from '@chakra-ui/react'
 
 function App() {
   const [sites, setSites] = useState([]);
@@ -60,7 +59,10 @@ function WebsiteCards({ sites }) {
     <SimpleGrid columns={4} spacing={10}>
       {sites.map(s =>
         <Card variant='filled'>
-          <CardHeader> Site Name: {s.site} </CardHeader>
+          <CardBody>
+            <Image src={"https://api.apiflash.com/v1/urltoimage?access_key=3db85e280c3c4e5681d2f642fe599dc6&wait_until=page_loaded&url=" + s.urlUser} alt="placeholder" borderRadius="lg"/>
+          </CardBody>
+          <CardHeader>Site Name: {s.site}</CardHeader>
           <CardFooter>Site address: {s.urlUser}</CardFooter>
         </Card>)
       }
