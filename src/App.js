@@ -1,13 +1,14 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
 function App() {
-  const [response, onResponse] = useState([]);
+  const [sites, setSites] = useState([]);
 
   return (
     <>
       <HeaderImage />
-      <SearchBar onResponse={(data) => setResponse(data)} />
+      <SearchBar onResponse={(data) => setSites(data.sites)} />
       <Information />
+      <WebsiteCards sites={sites}/>
     </>
   );
 }
@@ -21,17 +22,41 @@ function HeaderImage() {
 }
 
 function SearchBar({ onResponse }) {
+  const [searchString, setSearchString] = useState();
+  const textInput = useRef();
 
-  const handleSubmit = e => {
+  const handleClick = (e) => {
+    setSearchString(textInput.current.value);
+
     onResponse(staticResponse);
+    // const response = await fetch("https://us-west1-sherlockify.cloudfunctions.net/sherlock",
+    //   {
+    //     method: "POST",
+    //     body: JSON.stringify({ username: searchString }),
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //       "Authorization": "Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6ImI5YWM2MDFkMTMxZmQ0ZmZkNTU2ZmYwMzJhYWIxODg4ODBjZGUzYjkiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJhY2NvdW50cy5nb29nbGUuY29tIiwiYXpwIjoiNjE4MTA0NzA4MDU0LTlyOXMxYzRhbGczNmVybGl1Y2hvOXQ1Mm4zMm42ZGdxLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwiYXVkIjoiNjE4MTA0NzA4MDU0LTlyOXMxYzRhbGczNmVybGl1Y2hvOXQ1Mm4zMm42ZGdxLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwic3ViIjoiMTE1NjY2NTM0NTAyNjU1MzczNTk5IiwiZW1haWwiOiJkYW5pZWwucGFuaGVhZDFAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImF0X2hhc2giOiJJRVpsWTQ2dnNUSGpVTTBGY1pyWDZ3IiwibmJmIjoxNjk2MDUyOTE4LCJpYXQiOjE2OTYwNTMyMTgsImV4cCI6MTY5NjA1NjgxOCwianRpIjoiOTQ2MGZhMDQ2YzI3MDcxNTdkYWRjZjE0NjkxNzcwZmQ3MjlhMTFhYiJ9.OR0B9SZypseuXbvAOSe2T35nDwWSxPECmFs6Em0-HvI0xJLBM3B1ogkS65yXiZGq8Rbnllz1UUIK2oIj9I-x_VCIVAShHZBFL9ku3WHJkylcpvHv_xRQvQ2Tzoh4BHUraT8kHyDIsQWjEqe0V-xlwwFkDuHdHdCOZyFHu6jEEcDDwcFZCiBbx9GDtUv4ifrikiC6Lz1IlAQF7qaFLCH87jKs46tZL-pdxmCaIZbEWqFrdZxSJKtjEnHMJY3UQ-_i7l9aNg7pIhw7N6coYxKo-lZX5QbqtDr6oF0TjOhYrZ-01FwfA5zJTBqWFikZi1dQ3mYLH2pYu-Cb8kisFd3cMQ"
+    //     }
+    //   }
+    // );
+
+    // onResponse(JSON.parse(await response.text()).data);
+  }
+
+  function handleType() {
   }
 
   return (
     <div>
-      <input placeholder='Enter usernames'></input>
-      <button onClick={handleSubmit}>search icon lmao</button>
+      <input ref={textInput} placeholder='Enter usernames seperated by spaces'></input>
+      <button onClick={handleClick}>search icon lmao</button>
+      <br />searched string: {searchString} 
     </div>
   );
+}
+
+function WebsiteCards({ sites }) {
+  
 }
 
 function Information() {
