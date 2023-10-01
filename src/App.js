@@ -34,7 +34,7 @@ function SearchBar({ onResponse }) {
   }
 
   const handleClick = async (e) => {
-    const sse = new EventSource('http://localhost:8000/stream')
+    const sse = new EventSource('https://run-sherlock-4rsz5rrjca-uw.a.run.app/stream')
 
     sse.onmessage = (e) => {
       const item = JSON.parse(e.data)
@@ -54,7 +54,7 @@ function SearchBar({ onResponse }) {
     // onResponse(await response.json());
     // onResponse(staticResponse);
 
-    await fetch("http://localhost:8000",
+    await fetch("https://run-sherlock-4rsz5rrjca-uw.a.run.app",
       {
         method: "POST",
         body: JSON.stringify({ "username": searchString, "extra": searchExtras }),
