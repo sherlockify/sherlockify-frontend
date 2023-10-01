@@ -5,7 +5,7 @@ import SearchSites from "./components/SearchSites";
 
 
 function App() {
-    const [sites, setSites] = useState([]);
+    const [sites, setSites] = useState(staticResponse.sites);
     const [isLoading, setIsLoading] = useState(false);
     const [siteSearch, setSiteSearch] = useState("");
 
@@ -72,7 +72,7 @@ function WebsiteCards({sites, siteSearch}) {
     return (
         <div className='allCards'>
             {sites.filter(
-                s => s.site.includes(siteSearch)
+                s => s.site.toLowerCase().includes(siteSearch.toLowerCase())
             ).map(
                 s =>
                     <div className='siteCard'>
