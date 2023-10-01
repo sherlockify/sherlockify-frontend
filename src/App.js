@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { Box, ChakraProvider, Text, Button, Card, Flex, Center, CardHeader, CardFooter, SimpleGrid, CardBody, Image, Input, InputGroup, InputLeftElement, InputRightAddon, InputRightElement, GenericAvatarIcon, Checkbox } from '@chakra-ui/react'
+import { ChakraProvider, Text, Button, Card, Flex, Center, CardHeader, CardFooter, SimpleGrid, CardBody, Image, Input, InputGroup, InputLeftElement, InputRightAddon, InputRightElement, GenericAvatarIcon, Checkbox } from '@chakra-ui/react'
 
 const reqUrl = 'http://localhost:8000'
 
@@ -7,8 +7,8 @@ function App() {
   const [sites, setSites] = useState([]);
 
   return (
-    <ChakraProvider>
-      <Flex p={16} flexDirection="column" gap={10}>
+    <ChakraProvider >
+      <Flex py={16} flexDirection="column" gap={10}>
         <LandingPage onRequest={() => setSites([])} onResponse={(data) => setSites(prevData => [...prevData, data])} />
         <WebsiteCards sites={sites} />
       </Flex>
@@ -96,17 +96,20 @@ function SearchBar({ onRequest, onResponse }) {
 
 function WebsiteCards({ sites }) {
   return (
-    <SimpleGrid columns={4} spacing={10}>
-      {sites.map((s, index) =>
-        <Card variant='filled' key={index}>
-          <CardBody>
-            <Image src={"https://api.apiflash.com/v1/urltoimage?access_key=3db85e280c3c4e5681d2f642fe599dc6&wait_until=page_loaded&url=" + s.urlUser} alt="placeholder" borderRadius="lg" />
-          </CardBody>
-          <CardHeader>Site Name: {s.site}</CardHeader>
-          <CardFooter>Site address: {s.urlUser}</CardFooter>
-        </Card>)
-      }
-    </SimpleGrid>
+    <Flex flexDirection="column" gap={2} w="full" px={16}>
+      <span><i>{sites.length} results found</i></span>
+      <SimpleGrid columns={4} spacing={10}>
+        {sites.map((s, index) =>
+          <Card variant='filled' key={index}>
+            <CardBody>
+              <Image src={"https://api.apiflash.com/v1/urltoimage?access_key=3db85e280c3c4e5681d2f642fe599dc6&wait_until=page_loaded&url=" + s.urlUser} alt="placeholder" borderRadius="lg" />
+            </CardBody>
+            <CardHeader>Site Name: {s.site}</CardHeader>
+            <CardFooter>Site address: {s.urlUser}</CardFooter>
+          </Card>)
+        }
+      </SimpleGrid>
+    </Flex>
   )
 }
 
