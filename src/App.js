@@ -103,46 +103,41 @@ function SearchBar({onRequest, onResponse}) {
         );
     }
 
-    return (
-        <Flex w="2xl" flexDirection="column" gap={3} alignItems="center">
-            <InputGroup size="md">
-                <InputLeftElement children={<GenericAvatarIcon color="darkgray" p={1} mb={1}/>}/>
-                <Input variant="filled" ref={textInput} onChange={onType} placeholder='Enter a username'
-                       _placeholder={{opacity: 0.7}}></Input>
-                <InputRightElement w={36}>
-                    <Button colorScheme='blue' onClick={handleClick} isLoading={searching} loadingText="Searching..."
-                            w="full" borderColor="white">
-                        Search the web!
-                    </Button>
-                </InputRightElement>
-            </InputGroup>
-            <Checkbox onChange={() => setSearchExtras(!searchExtras)} textColor="gray.100">Explore non-mainstream sites
-                only?</Checkbox>
-        </Flex>
-    );
+  return (
+    <Flex w="2xl" flexDirection="column" gap={3} alignItems="center">
+      <InputGroup size="md">
+        <InputLeftElement children={<GenericAvatarIcon color="darkgray" p={1} mb={1} />} />
+        <Input ref={textInput} onChange={onType} placeholder='Enter a username' bgColor="gray.100" _placeholder={{opacity: 0.7}}></Input>
+        <InputRightElement w={36}>
+          <Button colorScheme='blue' onClick={handleClick} isLoading={searching} loadingText="Searching..." w="full" borderColor="white">
+            Search the web!
+          </Button>
+        </InputRightElement>
+      </InputGroup>
+      <Checkbox onChange={() => setSearchExtras(!searchExtras)} textColor="gray.100">Explore non-mainstream sites only?</Checkbox>
+    </Flex>
+  );
 }
 
-function WebsiteCards({sites}) {
-    return (
-        <Flex flexDirection="column" gap={2} w="full" px={16}>
-            <SimpleGrid columns={4} spacing={10}>
-                {sites.map((s, index) =>
-                    <Card variant='filled' key={index} as="a" transition="background-color 150ms ease-in-out"
-                          href={s.urlUser} _hover={{backgroundColor: "#CBD5E0"}}>
-                        <CardBody>
-                            <Image
-                                src={"https://api.apiflash.com/v1/urltoimage?access_key=3db85e280c3c4e5681d2f642fe599dc6&wait_until=page_loaded&url=" + s.urlUser}
-                                alt="placeholder" borderRadius="lg"/>
-                        </CardBody>
-                        <CardHeader>
-                            <Box fontSize="xl" fontWeight="bold">{s.site}</Box>
-                            <Box fontSize="sm" color="gray.500">{s.urlUser}</Box>
-                        </CardHeader>
-                    </Card>
-                )}
-            </SimpleGrid>
-        </Flex>
-    )
+function WebsiteCards({ sites }) {
+  return (
+    <Flex flexDirection="column" gap={2} w="full" px={16}>
+      <span><i>{sites.length} results found</i></span>
+      <SimpleGrid columns={4} spacing={10}>
+        {sites.map((s, index) =>
+          <Card variant='filled' key={index} as="a" transition="background-color 150ms ease-in-out" href={s.urlUser} _hover={{ backgroundColor: "#CBD5E0" }}>
+            <CardBody>
+              <Image src={"https://api.apiflash.com/v1/urltoimage?access_key=3db85e280c3c4e5681d2f642fe599dc6&wait_until=page_loaded&url=" + s.urlUser} alt="placeholder" borderRadius="lg" />
+            </CardBody>
+            <CardHeader>
+              <Box fontSize="xl" fontWeight="bold">{s.site}</Box>
+              <Box fontSize="sm" color="gray.500">{s.urlUser}</Box>
+            </CardHeader>
+          </Card>
+        )}
+      </SimpleGrid>
+    </Flex>
+  )
 }
 
 
