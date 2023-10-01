@@ -1,12 +1,8 @@
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState } from 'react';
 import { ChakraProvider, Button, Card, CardHeader, CardFooter, SimpleGrid, CardBody, Image } from '@chakra-ui/react'
 
 function App() {
   const [sites, setSites] = useState([]);
-
-  useEffect(() => {
-    console.log(sites)
-  }, [sites])
 
   return (
     <ChakraProvider>
