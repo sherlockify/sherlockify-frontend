@@ -23,7 +23,7 @@ import SearchSites from "./components/SearchSites";
 const reqUrl = 'http://localhost:8000'
 
 function App() {
-  const [sites, setSites] = useState(staticResponse.sites);
+  const [sites, setSites] = useState([]);
   const [siteSearch, setSiteSearch] = useState("");
 
   return (
@@ -73,6 +73,7 @@ function SearchBar({ onRequest, onResponse }) {
 
     sse.onmessage = (e) => {
       const item = JSON.parse(e.data)
+      console.log(item)
       if (item["stop"]) {
         sse.close()
         setSearching(false)
