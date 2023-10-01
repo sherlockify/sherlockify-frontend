@@ -7,11 +7,13 @@ function App() {
   const [sites, setSites] = useState([]);
 
   return (
-    <ChakraProvider >
-      <Flex py={16} flexDirection="column" gap={10} bgColor="#1A2B34">
-        <LandingPage onRequest={() => setSites([])} onResponse={(data) => setSites(prevData => [...prevData, data])} />
-        <WebsiteCards sites={sites} />
-      </Flex>
+    <ChakraProvider>
+      <Box bgColor="#1A2B34" h="full">
+        <Flex py={16} flexDirection="column" gap={10}>
+          <LandingPage onRequest={() => setSites([])} onResponse={(data) => setSites(prevData => [...prevData, data])} />
+          <WebsiteCards sites={sites} />
+        </Flex>
+      </Box>
     </ChakraProvider>
   );
 }
