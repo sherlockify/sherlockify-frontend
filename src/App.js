@@ -8,12 +8,10 @@ function App() {
 
   return (
     <ChakraProvider>
-      <Box bgColor="#1A2B34" h="full">
-        <Flex py={16} flexDirection="column" gap={10}>
-          <LandingPage onRequest={() => setSites([])} onResponse={(data) => setSites(prevData => [...prevData, data])} />
-          <WebsiteCards sites={sites} />
-        </Flex>
-      </Box>
+      <Flex py={16} flexDirection="column" gap={10} bgColor="#1A2B34" h="full">
+        <LandingPage onRequest={() => setSites([])} onResponse={(data) => setSites(prevData => [...prevData, data])} />
+        <WebsiteCards sites={sites} />
+      </Flex>
     </ChakraProvider>
   );
 }
@@ -98,7 +96,7 @@ function SearchBar({ onRequest, onResponse }) {
 
 function WebsiteCards({ sites }) {
   return (
-    <Flex flexDirection="column" gap={2} w="full" px={16}>
+    <Flex flexDirection="column" gap={2} w="full" px={16} grow="1">
       <Box textColor="gray.100"><i>{sites.length} results found</i></Box>
       <SimpleGrid columns={4} spacing={10}>
         {sites.map((s, index) =>
