@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { ChakraProvider, Text, Button, Card, Flex, Center, CardHeader, CardFooter, SimpleGrid, CardBody, Image, Input, InputGroup, InputLeftElement, InputRightAddon, InputRightElement, GenericAvatarIcon, Checkbox } from '@chakra-ui/react'
+import { Box, ChakraProvider, Text, Button, Card, Flex, Center, CardHeader, CardFooter, SimpleGrid, CardBody, Image, Input, InputGroup, InputLeftElement, InputRightAddon, InputRightElement, GenericAvatarIcon, Checkbox } from '@chakra-ui/react'
 
 const reqUrl = 'http://localhost:8000'
 
@@ -8,18 +8,23 @@ function App() {
 
   return (
     <ChakraProvider>
-      <LandingPage onRequest={() => setSites([])} onResponse={(data) => setSites(prevData => [...prevData, data])} />
-      <WebsiteCards sites={sites} />
+      <Flex p={16} flexDirection="column" gap={10}>
+        <LandingPage onRequest={() => setSites([])} onResponse={(data) => setSites(prevData => [...prevData, data])} />
+        <WebsiteCards sites={sites} />
+      </Flex>
     </ChakraProvider>
   );
 }
 
 function LandingPage({ onRequest, onResponse }) {
   return (
-    <Flex direction="column" justify="space-between" align="center">
-      <HeaderImage />
+    <Flex direction="column" justify="space-between" align="center" gap={4}>
+      <Flex p={8} direction="column" alignItems="center" gap={4}>
+        <HeaderImage />
+        <Information />
+      </Flex>
       <SearchBar onRequest={onRequest} onResponse={onResponse} />
-      <Information />
+      
     </Flex>
   );
 }
@@ -29,6 +34,7 @@ function LandingPage({ onRequest, onResponse }) {
 function SearchBar({ onRequest, onResponse }) {
   const [searchString, setSearchString] = useState("");
   const [searchExtras, setSearchExtras] = useState(false);
+  const [searching, setSearching] = useState(false);
   const textInput = useRef();
 
   const onType = e => {
@@ -36,6 +42,7 @@ function SearchBar({ onRequest, onResponse }) {
   }
 
   const handleClick = async (e) => {
+    setSearching(true)
     onRequest()
 
     const sse = new EventSource(reqUrl + '/stream')
@@ -44,8 +51,9 @@ function SearchBar({ onRequest, onResponse }) {
       const item = JSON.parse(e.data)
       if (item["stop"]) {
         sse.close()
+        setSearching(false)
       } else if (item["start"]) {
-        console.log("start")
+        // pass
       } else {
         onResponse(item)
       }
@@ -53,6 +61,7 @@ function SearchBar({ onRequest, onResponse }) {
 
     sse.onerror = () => {
       sse.close()
+      setSearching(false)
     }
 
     // onResponse(await response.json());
@@ -70,14 +79,18 @@ function SearchBar({ onRequest, onResponse }) {
   }
 
   return (
-    <>
-      <InputGroup>
+    <Flex w="2xl" flexDirection="column" gap={2} alignItems="center">
+      <InputGroup size="md">
         <InputLeftElement children={<GenericAvatarIcon color="darkgray" />} />
         <Input ref={textInput} onChange={onType} placeholder='Enter a username'></Input>
-        <InputRightElement children={<Button colorScheme='blue' onClick={handleClick}>Go</Button>} />
+        <InputRightElement w={36}>
+          <Button colorScheme='blue' onClick={handleClick} isLoading={searching} loadingText="Searching..." w="full">
+            Search the web!
+          </Button>
+        </InputRightElement>
       </InputGroup>
       <Checkbox onChange={() => setSearchExtras(!searchExtras)}>Explore non-mainstream sites only?</Checkbox>
-    </>
+    </Flex>
   );
 }
 
@@ -100,8 +113,8 @@ function WebsiteCards({ sites }) {
 function Information() {
   return (
     <div>
-      <Text align='text-align'>
-        Hunt down social media accounts by username across social networks.
+      <Text align='text-align' fontSize="lg">
+        Hunt down social media accounts by username across the Internet!
       </Text>
     </div>
   )
