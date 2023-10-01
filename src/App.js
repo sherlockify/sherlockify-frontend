@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { ChakraProvider, Text, Button, Card, Flex, Center, CardHeader, CardFooter, SimpleGrid, CardBody, Image, Input, InputGroup, InputLeftElement, InputRightAddon, InputRightElement, GenericAvatarIcon, Checkbox } from '@chakra-ui/react'
+import { Box, ChakraProvider, Text, Button, Card, Flex, Center, CardHeader, CardFooter, SimpleGrid, CardBody, Image, Input, InputGroup, InputLeftElement, InputRightAddon, InputRightElement, GenericAvatarIcon, Checkbox } from '@chakra-ui/react'
 
 const reqUrl = 'http://localhost:8000'
 
@@ -100,14 +100,16 @@ function WebsiteCards({ sites }) {
       <span><i>{sites.length} results found</i></span>
       <SimpleGrid columns={4} spacing={10}>
         {sites.map((s, index) =>
-          <Card variant='filled' key={index}>
+          <Card variant='filled' key={index} as="a" transition="background-color 150ms ease-in-out" href={s.urlUser} _hover={{ backgroundColor: "#CBD5E0" }}>
             <CardBody>
               <Image src={"https://api.apiflash.com/v1/urltoimage?access_key=3db85e280c3c4e5681d2f642fe599dc6&wait_until=page_loaded&url=" + s.urlUser} alt="placeholder" borderRadius="lg" />
             </CardBody>
-            <CardHeader>Site Name: {s.site}</CardHeader>
-            <CardFooter>Site address: {s.urlUser}</CardFooter>
-          </Card>)
-        }
+            <CardHeader>
+              <Box fontSize="xl" fontWeight="bold">{s.site}</Box>
+              <Box fontSize="sm" color="gray.500">{s.urlUser}</Box>
+            </CardHeader>
+          </Card>
+        )}
       </SimpleGrid>
     </Flex>
   )
