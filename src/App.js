@@ -6,7 +6,7 @@ function App() {
 
   return (
     <ChakraProvider>
-      <LandingPage onResponse={(data) => setSites(data.sites)} />
+      <LandingPage onResponse={(data) => setSites(prevData => [...prevData, data])} />
       <WebsiteCards sites={sites} />
     </ChakraProvider>
   );
@@ -48,7 +48,6 @@ function SearchBar({ onResponse }) {
     }
 
     sse.onerror = () => {
-      console.log("Error")
       sse.close()
     }
 
