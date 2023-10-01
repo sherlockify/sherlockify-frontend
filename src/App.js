@@ -1,22 +1,24 @@
 import { useRef, useState } from 'react';
 import { ChakraProvider, Text, Button, Card, Flex, Center, CardHeader, CardFooter, SimpleGrid, CardBody, Image, Input, InputGroup, InputLeftElement, InputRightAddon, InputRightElement, GenericAvatarIcon, Checkbox } from '@chakra-ui/react'
 
+const reqUrl = 'http://localhost:8000'
+
 function App() {
   const [sites, setSites] = useState([]);
 
   return (
     <ChakraProvider>
-      <LandingPage onResponse={(data) => setSites(prevData => [...prevData, data])} />
+      <LandingPage onRequest={() => setSites([])} onResponse={(data) => setSites(prevData => [...prevData, data])} />
       <WebsiteCards sites={sites} />
     </ChakraProvider>
   );
 }
 
-function LandingPage({ onResponse }) {
+function LandingPage({ onRequest, onResponse }) {
   return (
     <Flex direction="column" justify="space-between" align="center">
       <HeaderImage />
-      <SearchBar onResponse={onResponse} />
+      <SearchBar onRequest={onRequest} onResponse={onResponse} />
       <Information />
     </Flex>
   );
@@ -24,7 +26,7 @@ function LandingPage({ onResponse }) {
 
 
 
-function SearchBar({ onResponse }) {
+function SearchBar({ onRequest, onResponse }) {
   const [searchString, setSearchString] = useState("");
   const [searchExtras, setSearchExtras] = useState(false);
   const textInput = useRef();
@@ -34,7 +36,9 @@ function SearchBar({ onResponse }) {
   }
 
   const handleClick = async (e) => {
-    const sse = new EventSource('https://run-sherlock-4rsz5rrjca-uw.a.run.app/stream')
+    onRequest()
+
+    const sse = new EventSource(reqUrl + '/stream')
 
     sse.onmessage = (e) => {
       const item = JSON.parse(e.data)
@@ -54,7 +58,7 @@ function SearchBar({ onResponse }) {
     // onResponse(await response.json());
     // onResponse(staticResponse);
 
-    await fetch("https://run-sherlock-4rsz5rrjca-uw.a.run.app",
+    await fetch(reqUrl,
       {
         method: "POST",
         body: JSON.stringify({ "username": searchString, "extra": searchExtras }),
@@ -80,8 +84,8 @@ function SearchBar({ onResponse }) {
 function WebsiteCards({ sites }) {
   return (
     <SimpleGrid columns={4} spacing={10}>
-      {sites.map(s =>
-        <Card variant='filled'>
+      {sites.map((s, index) =>
+        <Card variant='filled' key={index}>
           <CardBody>
             <Image src={"https://api.apiflash.com/v1/urltoimage?access_key=3db85e280c3c4e5681d2f642fe599dc6&wait_until=page_loaded&url=" + s.urlUser} alt="placeholder" borderRadius="lg" />
           </CardBody>
