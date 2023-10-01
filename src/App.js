@@ -1,13 +1,17 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { ChakraProvider, Button, Card, CardHeader, CardFooter, SimpleGrid, CardBody, Image } from '@chakra-ui/react'
 
 function App() {
   const [sites, setSites] = useState([]);
 
+  useEffect(() => {
+    console.log(sites)
+  }, [sites])
+
   return (
     <ChakraProvider>
       <HeaderImage />
-      <SearchBar onResponse={(data) => setSites(data.sites)} />
+      <SearchBar onResponse={(data) => {setSites(prevSites => [...prevSites, data])}} />
       <Information />
       <WebsiteCards sites={sites} />
     </ChakraProvider>
@@ -31,18 +35,36 @@ function SearchBar({ onResponse }) {
   }
 
   const handleClick = async (e) => {
-    const response = await fetch("https://run-sherlock-4rsz5rrjca-uw.a.run.app",
+    const sse = new EventSource('http://localhost:8000/stream')
+
+    sse.onmessage = (e) => {
+      const item = JSON.parse(e.data)
+      if (item["stop"]) {
+        sse.close()
+      } else if (item["start"]) {
+        console.log("start")
+      } else {
+        onResponse(item)
+      }
+    }
+
+    sse.onerror = () => {
+      console.log("Error")
+      sse.close()
+    }
+
+    // onResponse(await response.json());
+    // onResponse(staticResponse);
+
+    await fetch("http://localhost:8000",
       {
         method: "POST",
-        body: JSON.stringify({ "username": searchString }),
+        body: JSON.stringify({ "username": searchString, "extra": false }),
         headers: {
           "Content-Type": "application/json"
         }
       }
     );
-
-    // onResponse(await response.json());
-    onResponse(staticResponse);
   }
 
   return (
@@ -60,7 +82,9 @@ function WebsiteCards({ sites }) {
       {sites.map(s =>
         <Card variant='filled'>
           <CardBody>
-            <Image src={"https://api.apiflash.com/v1/urltoimage?access_key=3db85e280c3c4e5681d2f642fe599dc6&wait_until=page_loaded&url=" + s.urlUser} alt="placeholder" borderRadius="lg"/>
+            {
+            // <Image src={"https://api.apiflash.com/v1/urltoimage?access_key=3db85e280c3c4e5681d2f642fe599dc6&wait_until=page_loaded&url=" + s.urlUser} alt="placeholder" borderRadius="lg"/>
+            }
           </CardBody>
           <CardHeader>Site Name: {s.site}</CardHeader>
           <CardFooter>Site address: {s.urlUser}</CardFooter>
