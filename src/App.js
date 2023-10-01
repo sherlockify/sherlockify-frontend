@@ -8,7 +8,7 @@ function App() {
 
   return (
     <ChakraProvider >
-      <Flex py={16} flexDirection="column" gap={10}>
+      <Flex py={16} flexDirection="column" gap={10} bgColor="#1A2B34">
         <LandingPage onRequest={() => setSites([])} onResponse={(data) => setSites(prevData => [...prevData, data])} />
         <WebsiteCards sites={sites} />
       </Flex>
@@ -19,7 +19,7 @@ function App() {
 function LandingPage({ onRequest, onResponse }) {
   return (
     <Flex direction="column" justify="space-between" align="center" gap={4}>
-      <Flex p={8} direction="column" alignItems="center" gap={4}>
+      <Flex p={8} direction="column" alignItems="center">
         <HeaderImage />
         <Information />
       </Flex>
@@ -79,17 +79,17 @@ function SearchBar({ onRequest, onResponse }) {
   }
 
   return (
-    <Flex w="2xl" flexDirection="column" gap={2} alignItems="center">
+    <Flex w="2xl" flexDirection="column" gap={3} alignItems="center">
       <InputGroup size="md">
-        <InputLeftElement children={<GenericAvatarIcon color="darkgray" />} />
-        <Input ref={textInput} onChange={onType} placeholder='Enter a username'></Input>
+        <InputLeftElement children={<GenericAvatarIcon color="darkgray" p={1} mb={1} />} />
+        <Input variant="filled" ref={textInput} onChange={onType} placeholder='Enter a username' _placeholder={{opacity: 0.7}}></Input>
         <InputRightElement w={36}>
-          <Button colorScheme='blue' onClick={handleClick} isLoading={searching} loadingText="Searching..." w="full">
+          <Button colorScheme='blue' onClick={handleClick} isLoading={searching} loadingText="Searching..." w="full" borderColor="white">
             Search the web!
           </Button>
         </InputRightElement>
       </InputGroup>
-      <Checkbox onChange={() => setSearchExtras(!searchExtras)}>Explore non-mainstream sites only?</Checkbox>
+      <Checkbox onChange={() => setSearchExtras(!searchExtras)} textColor="gray.100">Explore non-mainstream sites only?</Checkbox>
     </Flex>
   );
 }
@@ -118,7 +118,7 @@ function WebsiteCards({ sites }) {
 function Information() {
   return (
     <div>
-      <Text align='text-align' fontSize="lg">
+      <Text align='text-align' fontSize="lg" textColor="gray.100">
         Hunt down social media accounts by username across the Internet!
       </Text>
     </div>
