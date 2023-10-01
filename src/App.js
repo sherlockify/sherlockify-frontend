@@ -122,7 +122,7 @@ function SearchBar({onRequest, onResponse}) {
 function WebsiteCards({ sites }) {
   return (
     <Flex flexDirection="column" gap={2} w="full" px={16}>
-      <span><i>{sites.length} results found</i></span>
+      <Box textColor="gray.100"><i>{sites.length} results found</i></Box>
       <SimpleGrid columns={4} spacing={10}>
         {sites.map((s, index) =>
           <Card variant='filled' key={index} as="a" transition="background-color 150ms ease-in-out" href={s.urlUser} _hover={{ backgroundColor: "#CBD5E0" }}>
