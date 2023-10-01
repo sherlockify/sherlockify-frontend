@@ -82,7 +82,7 @@ function SearchBar({ onRequest, onResponse }) {
     <Flex w="2xl" flexDirection="column" gap={3} alignItems="center">
       <InputGroup size="md">
         <InputLeftElement children={<GenericAvatarIcon color="darkgray" p={1} mb={1} />} />
-        <Input variant="filled" ref={textInput} onChange={onType} placeholder='Enter a username' _placeholder={{opacity: 0.7}}></Input>
+        <Input ref={textInput} onChange={onType} placeholder='Enter a username' bgColor="gray.100" _placeholder={{opacity: 0.7}}></Input>
         <InputRightElement w={36}>
           <Button colorScheme='blue' onClick={handleClick} isLoading={searching} loadingText="Searching..." w="full" borderColor="white">
             Search the web!
