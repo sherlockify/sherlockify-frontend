@@ -3,7 +3,7 @@
 
 Most of us are either full time students or full time workers... but all of us are part time stalkers. Imagine if you could cut down the hours it took for such a time consuming activity. You'd be able to spend your extra free time to focus more on your studies, make big wins at work, retire early, travel to Maldives, sleep early... Although we all know the last one is never going to happen...
 
-[![Youtube Psuedoembed](/src/components/Embed.png)](https://www.youtube.com/watch?v=bunobscBWnU))
+[![Youtube Psuedoembed](/src/components/Embed.png)](https://www.youtube.com/watch?v=bunobscBWnU)
 
 
 ### Built With
