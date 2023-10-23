@@ -40,5 +40,5 @@ We built up from an existing open source repository, Sherlock Project. We used t
 - Synchronizing back-end and front-end
 
 ### Accomplishments that we're proud of 🌟
-- LearnT to understand an existing open source project’s structure, then modify and build up for our app
+- Learnt to understand an existing open source project’s structure, then modify and build up for our app
 - We got our API response time to go down from ~100 seconds (Google Cloud Functions, all sites) to ~15 seconds (Google Cloud Run, split into popular sites and extra sites)!
